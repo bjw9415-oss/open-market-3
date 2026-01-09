@@ -147,7 +147,7 @@ main {
 /* ================================================= */
 .carousel-wrapper {
   width: 100%;
-  background: var(--main-bg-color); /* 필요 시 */
+  background: var(--disabled-tab-color); /* 필요 시 */
 }
 
 .carousel-container {
@@ -156,6 +156,7 @@ main {
   height: 360px; /* 기본 */
   position: relative;
   overflow: hidden;
+  border: none;
 }
 
 .carousel-track {
@@ -228,4 +229,12 @@ main {
 /* 오른쪽 버튼 위치 */
 .next {
   right: 20px; /* 오른쪽 벽에서 20px 띄움 */
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  color: var(--main-text-color);
 }
