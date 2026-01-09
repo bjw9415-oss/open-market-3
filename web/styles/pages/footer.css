@@ -2,11 +2,6 @@
 /* ============ Sticky Footer (전체 레이아웃) ======= */
 /* ================================================= */
 
-html,
-body {
-  height: 100%;
-}
-
 body {
   min-height: 100vh;
   display: flex;

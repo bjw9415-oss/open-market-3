@@ -15,7 +15,6 @@ img,
 video,
 svg {
   max-width: 100%;
-  height: auto;
   display: block;
 }
 
@@ -25,6 +24,15 @@ body {
   background: var(--main-bg-color);
   color: var(--main-text-colo);
   min-width: 22.5rem;
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
 }
 /* ============================================= */
 /* ================= Container ================= */
@@ -37,111 +45,6 @@ body {
   margin: 0 auto;
   padding: 0 24px;
 }
-
-/* ============================================= */
-/* =============== Main Banner ================= */
-/* ============================================= */
-
-.main-banner {
-  background: var(--disabled-tab-color);
-  width: 100%;
-}
-
-.banner-inner {
-  width: 100%;
-  max-width: 120rem;
-  height: clamp(14rem, 42vw, 31.25rem);
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
-}
-
-.banner-track {
-  position: relative;
-  height: 100%;
-  z-index: 1;
-}
-
-.banner-slide {
-  position: absolute;
-  inset: 0;
-  display: none;
-  pointer-events: none;
-}
-
-.banner-slide.is-active {
-  display: block;
-}
-
-.banner-slide img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  object-position: top center;
-}
-
-/* 버튼 */
-.banner-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-
-  font-size: 2.25rem;
-  font-weight: 200;
-  opacity: 0.7;
-  color: var(--main-text-color);
-
-  padding: 0 1rem;
-  line-height: 1;
-
-  pointer-events: auto;
-  user-select: none;
-}
-
-.banner-btn:hover {
-  opacity: 1;
-}
-
-.banner-btn.prev {
-  left: 1.5rem;
-}
-.banner-btn.next {
-  right: 1.5rem;
-}
-
-.banner-indicator {
-  position: absolute;
-  bottom: 1.25rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-
-  display: flex;
-  gap: 0.625rem;
-}
-
-.banner-indicator .dot {
-  width: 0.625rem;
-  height: 0.625rem;
-  border-radius: 50%;
-  border: 0;
-  background: var(--main-bg-color);
-  opacity: 0.5;
-  cursor: pointer;
-  padding: 0;
-}
-
-.banner-indicator .dot.is-active {
-  background: var(--main-text-color);
-  opacity: 1;
-}
-
 /* ============================================= */
 /* =============== Product List ================ */
 /* ============================================= */
@@ -221,11 +124,6 @@ body {
     gap: 2rem 1.75rem;
     --card-scale: 0.97;
   }
-
-  .banner-btn {
-    font-size: 2rem;
-    padding: 0 0.875rem;
-  }
 }
 
 @media (max-width: 40rem) {
@@ -242,44 +140,45 @@ body {
   .card img {
     border-radius: 0.625rem;
   }
-
-  .banner-inner {
-    height: 20rem;
-  }
-
-  .banner-btn {
-    font-size: 1.75rem;
-    padding: 0 0.625rem;
-  }
-
-  .banner-indicator {
-    bottom: 0.875rem;
-  }
 }
 
 /* ================================================= */
 /* ===================== carousel ==================== */
 /* ================================================= */
+.carousel-wrapper {
+  width: 100%;
+  background: var(--disabled-tab-color); /* 필요 시 */
+}
 
 .carousel-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  height: 360px; /* 기본 */
   position: relative;
-  width: 100%;
   overflow: hidden;
-  margin-top: 10rem;
+  border: none;
 }
 
 .carousel-track {
   display: flex;
-  align-items: center;
-  transition: transform 0.5s ease-in-out;
-  height: 30rem;
+  width: 100%;
+  height: 100%;
 }
 
 .slide {
-  display: flex;
-  justify-content: center;
   min-width: 100%;
-  box-sizing: border-box;
+  height: 100%;
+  flex-shrink: 0;
+}
+.slide a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* ================================================= */
@@ -321,8 +220,7 @@ body {
   position: absolute; /* 부모인 container를 기준으로 자유롭게 이동 */
   top: 50%; /* 위에서 50% 지점으로 이동 */
   transform: translateY(-50%);
-  z-index: 10;
-  z-index: 10;
+  z-index: 20;
 }
 .prev {
   left: 20px; /* 왼쪽 벽에서 20px 띄움 */
@@ -331,4 +229,12 @@ body {
 /* 오른쪽 버튼 위치 */
 .next {
   right: 20px; /* 오른쪽 벽에서 20px 띄움 */
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  color: var(--main-text-color);
 }
