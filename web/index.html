@@ -13,6 +13,7 @@
   </head>
 
   <body>
+    <header></header>
     <!-- ===== Main Banner ===== -->
     <!-- <section class="main-banner" aria-label="메인 배너">
       <div class="banner-inner">
@@ -43,38 +44,36 @@
     </section> -->
 
     <!-- 캐러셀  -->
-    <div class="carousel-container">
-      <div class="carousel-track">
-        <div class="slide">1번 콘텐츠</div>
-        <div class="slide">2번 콘텐츠</div>
-        <div class="slide">3번 콘텐츠</div>
-        <div class="slide">4번 콘텐츠</div>
-        <div class="slide">5번 콘텐츠</div>
+    <main>
+      <div class="carousel-wrapper">
+        <div class="carousel-container">
+          <div class="carousel-track"></div>
+          <div class="button-container">
+            <button class="btn prev">
+              <svg width="24" height="24">
+                <use href="assets/icons/sprite.svg#icon-chevron-left"></use>
+              </svg>
+            </button>
+            <button class="btn next">
+              <svg width="24" height="24">
+                <use href="assets/icons/sprite.svg#icon-chevron-right"></use>
+              </svg>
+            </button>
+          </div>
+          <!-- 인디케이터 -->
+          <div class="indicator-container"></div>
+        </div>
       </div>
-      <div class="button-container">
-        <button class="btn prev">
-          <svg width="24" height="24">
-            <use href="assets/icons/sprite.svg#icon-chevron-left"></use>
-          </svg>
-        </button>
-        <button class="btn next">
-          <svg width="24" height="24">
-            <use href="assets/icons/sprite.svg#icon-chevron-right"></use>
-          </svg>
-        </button>
-      </div>
-      <!-- 인디케이터 -->
-      <div class="indicator-container"></div>
-    </div>
+      <!-- 상품 리스트 -->
+      <section class="products">
+        <div class="main-container">
+          <h2 class="section-title">상품 목록</h2>
 
-    <!-- 상품 리스트 -->
-    <section class="products">
-      <div class="main-container">
-        <h2 class="section-title"></h2>
-
-        <ul class="product-grid" id="productGrid"></ul>
-      </div>
-    </section>
+          <ul class="product-grid" id="productGrid"></ul>
+        </div>
+      </section>
+    </main>
+    <footer></footer>
     <script src="js/api/config.js"></script>
     <script src="js/layout.js"></script>
     <script src="js/common/modal.js"></script>
