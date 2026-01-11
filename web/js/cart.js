@@ -8,7 +8,7 @@ const itemsEl = document.getElementById("cart-items"); // <li> 태그들이 삽�
 const totalPriceEl = document.getElementById("total-price"); // 합계 금액 출력 위치
 const finalPriceEl = document.getElementById("final-price"); // 최종 결제 금액 출력 위치
 const orderBtn = document.getElementById("order-btn"); // [전체 주문] 버튼
-
+import { renderCartItem } from "./common/CartItem.js";
 // 서버에서 받아온 원본 데이터를 보관하는 '데이터 저장소' 역할을 합니다.
 let cartItems = [];
 
@@ -69,76 +69,31 @@ function renderCartList() {
   emptyEl.classList.add("is-hidden");
   listEl.classList.remove("is-hidden");
 
-  // 기존 화면을 비우고 다시 그립니다. (수량 변경 시 화면 갱신을 위해 필요)
+  // 1. 기존 리스트 비우기
   itemsEl.innerHTML = "";
 
+  // 2. 데이터 반복문 돌리기
   cartItems.forEach((item) => {
-    const li = document.createElement("li");
-    li.className = "cart-item";
+    // 3. createCartItem 호출 (데이터와 핸들러 전달)
+    const li = createCartItem(item, {
+      onIncrease: (e) => onIncrease(e), // 수량 증가
+      onDecrease: (e) => onDecrease(e), // 수량 감소
+      onDelete: (id) => onDelete(id), // 삭제 (id 전달)
+      onCheck: () => updateTotalPrice(), // 체크 시 합계 계산
+      onOpenModal: (id) => openQtyEditModal(id), // 모달 열기
+      onSingleOrder: () => {
+        // 개별 주문 로직
+        const orderData = { items: [item], order_kind: "cart_order" };
+        sessionStorage.setItem("orderData", JSON.stringify(orderData));
+        location.href = PAGES.ORDER;
+      },
+    });
 
-    // [중요] HTML 요소에 데이터를 숨겨둡니다
-    // 나중에 버튼을 클릭했을 때 이 값을 읽어서 "어떤 상품인지" 서버에 알려줄 수 있습니다.
-    li.dataset.id = item.id; // 장바구니 내 고유 PK (삭제/수정용)
-    li.dataset.productId = item.product.id; // 실제 상품 고유 ID (수량 수정 시 필수 값)
-
-    li.innerHTML = `
-      <div class="col-info">
-        <label class="check-container">
-          <input type="checkbox" class="item-check" checked />
-          <span class="custom-checkbox"></span>
-        </label>
-        <img src="${item.product.image}" alt="${
-      item.product.name
-    }" class="cart-img" />
-        <div class="product-text">
-          <span class="seller">${item.product.seller.store_name}</span>
-          <strong class="name">${item.product.name}</strong>
-          <span class="price">${Utils.formatNumber(item.product.price)}원</span>
-          <br />
-          <span class="delivery-info">택배배송/ 무료배송</span>
-        </div>
-      </div>
-      <div class="col-qty">
-        <div class="qty-stepper">
-          <button type="button" class="qty-minus" aria-label="수량 감소">
-           <svg width="34" height="34" style="display: block;">
-            <use href="assets/icons/sprite.svg#icon-order-minus"></use>
-           </svg>
-          </button>
-          <span class="qty-val">${item.quantity}</span>
-          <button type="button" class="qty-plus" aria-label="수량 증가">
-           <svg width="34" height="34" style="display: block;">
-            <use href="assets/icons/sprite.svg#icon-order-plus"></use>
-           </svg>
-          </button>
-        </div>
-      </div>
-      <div class="col-price">
-        <span class="item-total-price">${Utils.formatNumber(
-          item.product.price * item.quantity
-        )}원</span>
-        <button type="button" class="order-item-btn">주문하기</button>
-      </div>
-      <button type="button" class="item-delete-btn" aria-label="${
-        item.product.name
-      } 삭제">&times;</button>
-    `;
+    // 4. 완성된 li를 부모 ul에 추가
     itemsEl.appendChild(li);
-    const qtyValEl = li.querySelector(".qty-val");
-    if (qtyValEl) {
-      qtyValEl.style.cursor = "pointer";
-      qtyValEl.onclick = (e) => {
-        e.stopPropagation(); // 이벤트 전파 방지
-        const id = li.dataset.id;
-        console.log("숫자 클릭됨! ID:", id); // 이게 찍히는지 확인
-        openQtyEditModal(id);
-      };
-    }
   });
 
-  // HTML이 생성된 '직후'에 버튼들에게 클릭 이벤트를 붙임
-  bindEvents();
-  // 체크된 상품들의 금액을 합산하여 하단 요약 영역을 갱신
+  // 5. 전체 합계 업데이트
   updateTotalPrice();
 }
 

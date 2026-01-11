@@ -18,6 +18,7 @@
 // 숫자 데이터를 17,500원처럼 세 자리마다 콤마(,)를 찍어주는 기능을 모든 페이지에서 공통으로 사용합니다.
 
 // 재발급 로직이 포함된 공통 함수
+
 const API_URL =
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1"
@@ -29,7 +30,7 @@ const STORAGE_KEYS = {
   USER: "user",
 };
 
-const PAGES = {
+export const PAGES = {
   HOME: "index.html",
   SIGNIN: "signin.html",
   SIGNUP: "signup.html",
@@ -39,7 +40,7 @@ const PAGES = {
   ERROR: "404.html",
 };
 
-const Utils = {
+export const Utils = {
   getUser() {
     const user = localStorage.getItem(STORAGE_KEYS.USER);
     return user ? JSON.parse(user) : null;
